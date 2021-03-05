@@ -75,4 +75,31 @@ public class NoticeDAO {
 		System.out.println("NoticeDAO.getTotlaRow().result : " + result);
 		return result;
 	}
+	
+	
+	public int write(NoticeVO vo)throws Exception{
+		int result = 0;
+		
+		try {
+			con=DBInfo.getConnection();
+			pstmt=con.prepareStatement(DBSQL.NOTICE_WRITE);
+			pstmt.setString(1,vo.getTitle());
+			pstmt.setString(2,vo.getContent());
+			pstmt.setString(3,vo.getStartDate());
+			pstmt.setString(4,vo.getEndDate());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new Exception("공지사항 작성 DB처리중 오류");
+		}finally {
+			DBInfo.close(con, pstmt);
+		}
+		
+		return result;
+	}
+	
+	
 }
